@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# Update system
+sudo apt update -y
+
+# Install required packages
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
+
+# Add Docker GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# Add Docker repository (use lsb_release to get correct codename like bionic, focal, jammy)
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+  https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Update again with Docker repo
+sudo apt update -y
+
+# Install Docker CE
+sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+# Enable and start Docker
+sudo systemctl enable docker
+sudo systemctl start docker
+
+# Optional: Add current user to docker group to run without sudo (takes effect after re-login)
+sudo usermod -aG docker $USER
+
+# Optional: Allow everyone access to Docker socket (less secure, only use in dev/test)
+sudo chmod 777 /var/run/docker.sock
+
+# Check Docker version
+docker --version
