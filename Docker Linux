@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+echo "Updating system..."
+sudo yum update -y
+
+echo "Installing required packages..."
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2 curl
+
+echo "Adding Docker repository..."
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+echo "Installing Docker..."
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+
+echo "Starting and enabling Docker..."
+sudo systemctl enable docker
+sudo systemctl start docker
+
+echo "Adding user to Docker group..."
+sudo usermod -aG docker $USER
+
+echo "Setting Docker socket permissions (dev only)..."
+sudo chmod 777 /var/run/docker.sock
+
+echo "Checking Docker version..."
+docker --version
