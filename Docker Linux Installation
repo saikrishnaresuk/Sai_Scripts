@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+echo "Updating system..."
+sudo dnf update -y
+
+echo "Installing Docker..."
+sudo dnf install -y docker
+
+echo "Starting Docker..."
+sudo systemctl start docker
+
+echo "Enabling Docker..."
+sudo systemctl enable docker
+
+echo "Adding user to docker group..."
+sudo usermod -aG docker $USER
+
+echo "Docker version:"
+docker --version
