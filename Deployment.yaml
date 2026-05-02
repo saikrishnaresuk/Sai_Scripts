@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pythonapp
+  labels:
+    app: csk
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: csk
+  template:
+    metadata:
+      labels:
+        app: csk
+    spec:
+      containers:
+      - name: whistlepodu
+        image: resusaikrishna/hello
+        ports:
+        - containerPort: 8000
+
+~
