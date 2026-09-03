@@ -26,7 +26,7 @@ sudo systemctl enable docker
 sudo systemctl start docker
 
 # Optional: Add current user to docker group to run without sudo (takes effect after re-login)
-sudo usermod -aG docker $ubuntu
+sudo usermod -aG docker $USER
 
 # Optional: Allow everyone access to Docker socket (less secure, only use in dev/test)
 sudo chmod 777 /var/run/docker.sock
